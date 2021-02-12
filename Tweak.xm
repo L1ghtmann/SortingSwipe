@@ -239,46 +239,31 @@
 		} 
 	}
 
-	// make final sorted array to be used for new layout
-	// as it stands now, the creation of this SBIcons array is unnecessary
-	// however, I'm keeping it around incase I decide to add more sorting options in the future that may or may not require an additional array(s) 
-	// TLDR: I'm lazy
-	NSMutableArray *SBIcons = [NSMutableArray new]; 
-	for(SBIcon *icon in sortedAppIcons){
-		[SBIcons addObject:icon];
-	}
-
-	// TODO: rewrite this (doesn't remove icons from dock and could be simplified)
 	// modified from Broha22's AppSort (https://github.com/broha22/appsort/blob/master/Tweak.x)	
-	// remove icons 
+	// remove and then add back now-sorted icons 
+	int index = 0;
+	NSMutableArray *addedIcons = [NSMutableArray array];
 	for(SBIconListView *listview in [self _currentFolderController].iconListViews) {
-		  for(SBIcon *icon in [listview icons]) {
+		for(SBIcon *icon in [listview icons]) {
 			[listview removeIcon:icon]; 
-			[listview layoutIconsNow];
-  		}
+		}
+	    for(SBIcon *icon in sortedAppIcons){
+			if([listview isFull]) break;
+			[listview insertIcon:icon atIndex:index options:0];
+			[addedIcons addObject:icon];
+			index++;
+		}
+		index = 0;
+		[sortedAppIcons removeObjectsInArray:addedIcons];
+		[listview layoutIconsNow];
   	}
 
-	// add icons back in new sorted order
-	NSArray<SBIconListView *> *listViews = [self _currentFolderController].iconListViews;
-	int listView = 0;
-  	int numberOfIcons = 0;
-  	for (SBIcon *icon in SBIcons) {
-		if(listViews[listView].full){
-  			listView++;
-  			numberOfIcons = 0;
-  		}
-		[[listViews objectAtIndex:listView] insertIcon:icon atIndex:numberOfIcons options:0];
-		numberOfIcons++;
-  	} 
-	for (int i=0; i<([listViews count]); i++) {
-		[listViews[i] setIconsNeedLayout];
-		[listViews[i] layoutIconsIfNeeded:0];
-		SBRootFolderView *rootFolderView = (SBRootFolderView *)[self _rootFolderController].contentView;
-		if(listViews[i].empty){
-			[rootFolderView _removeIconListView:listViews[i]]; 
-			[rootFolderView setNeedsLayout];
-		}
-	} 
+	//clear dock
+	SBIconListView *dockListView = [self _currentFolderController].dockIconListView;
+	for(SBIcon *icon in [dockListView icons]) {
+		[dockListView removeIcon:icon]; 
+	}
+	[dockListView layoutIconsNow];
 }
 
 %new

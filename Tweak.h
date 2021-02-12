@@ -3,18 +3,6 @@
 //https://stackoverflow.com/a/5337804
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
-@interface SBIconListView : UIView
-@property (getter=isEmpty,nonatomic,readonly) BOOL empty; 
-@property (getter=isFull,nonatomic,readonly) BOOL full; 
-@property (nonatomic,readonly) unsigned long long maximumIconCount; //if you want to know the number of icons permitted per listView
--(id)icons; 
--(id)insertIcon:(id)icon atIndex:(int)index options:(int)options;
--(void)removeIcon:(id)arg1;
--(void)setIconsNeedLayout;
--(void)layoutIconsIfNeeded:(double)arg1;
--(void)layoutIconsNow; //iOS 12
-@end
-
 @interface SBIcon : NSObject
 -(UIImage *)getIconImage:(int)format; // iOS 12 | available formats:
 /*
@@ -55,23 +43,27 @@
 -(SBIcon *)expectedIconForDisplayIdentifier:(NSString *)arg1;
 @end
 
+@interface SBIconListView : UIView
+@property (getter=isEmpty,nonatomic,readonly) BOOL empty; 
+@property (getter=isFull,nonatomic,readonly) BOOL full; 
+@property (nonatomic,readonly) unsigned long long maximumIconCount; //if you want to know the number of icons permitted per listView
+@property (nonatomic,retain) SBIconModel * model; 
+-(id)icons; 
+-(id)insertIcon:(id)icon atIndex:(int)index options:(int)options;
+-(void)removeIcon:(id)arg1;
+-(void)layoutIconsNow; //iOS 12
+@end
+
 @interface SBFolder : NSObject
 @property (nonatomic,readonly) unsigned long long listCount; //total number of list views (HS pages)
 @property (nonatomic,readonly) unsigned long long visibleListCount; //visible lists (selected) // iOS 14
 @property (nonatomic,readonly) unsigned long long hiddenListCount; //hidden lists (unselected) // iOS 14
--(id)addIcon:(id)arg1; // iOS 12 alt 
+-(id)addIcon:(id)arg1; 
 -(void)addIcons:(id)arg1; //iOS 13+
 @end
 
-@interface SBFolderView : UIView
--(void)_removeIconListView:(SBIconListView *)arg1;
-@end
-
-@interface SBRootFolderView : SBFolderView
-@end
-
 @interface SBFolderController : NSObject
-@property (nonatomic,readonly) SBFolderView * contentView; //iOS 12 
+@property (nonatomic,readonly) SBIconListView * dockIconListView; 
 @property(readonly, copy, nonatomic) NSArray *iconListViews;
 @end
 
@@ -92,7 +84,6 @@
 -(void)sortAppsWithConfiguration13:(int)configuration; //SortingSwipe iOS13
 -(void)sortAppsWithConfiguration14:(int)configuration; //SortingSwipe iOS14
 // -(SBFolder*)rootFolder; //iOS 12
--(SBFolderController *)_rootFolderController;
 -(SBFolderController *)_currentFolderController;
 @end
 

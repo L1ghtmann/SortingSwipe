@@ -1,5 +1,4 @@
-// https://github.com/alextrob/UIImageAverageColor/tree/master/UIImageAverageColor
-
+// https://github.com/NikolaiRuhe/UIImageAverageColor
 //
 //  UIImage+UIImageAverageColorAddition.h
 //  AvgColor
@@ -14,6 +13,5 @@
 
 - (UIColor *)averageColor;
 - (UIColor *)mergedColor;
-- (UIColor *)edgeColor;
 
 @end
