@@ -30,6 +30,7 @@
 
 @interface SBHIconModel : NSObject
 @property (nonatomic,copy,readonly) NSSet * leafIcons; //iOS 13
+-(void)setDesiredIconState:(NSDictionary *)arg1; // iOS 13
 // -(void)setSortsIconsAlphabetically:(BOOL)arg1 ; //works, but keeps folders intact + sorts folders and widgets  
 -(void)removeAllIcons;
 -(void)layout;
@@ -37,6 +38,7 @@
 
 @interface SBIconModel : SBHIconModel
 // -(NSDictionary *)leafIcons; //iOS 12
+-(void)importDesiredIconState:(NSDictionary *)arg1; // iOS 12
 // -(void)setSortsIconsAlphabetically:(BOOL)arg1 ; //iOS 12
 -(void)removeIcon:(id)icon; //iOS 12
 // -(void)layout; //iOS 12
@@ -80,17 +82,16 @@
 +(id)sharedInstance;
 -(void)saveLayout; //SortingSwipe 
 -(void)loadLayout; //SortingSwipe 
--(void)sortAppsWithConfiguration12:(int)configuration; //SortingSwipe iOS12
--(void)sortAppsWithConfiguration13:(int)configuration; //SortingSwipe iOS13
--(void)sortAppsWithConfiguration14:(int)configuration; //SortingSwipe iOS14
+-(void)sortAppsWithConfiguration:(int)configuration forVersion:(int)version; //SortingSwipe 
 // -(SBFolder*)rootFolder; //iOS 12
 -(SBFolderController *)_currentFolderController;
 @end
 
-// @interface SBIconModelPropertyListFileStore : NSObject
-// @property (nonatomic,copy,readonly) NSURL * currentIconStateURL;              
-// @end
+@interface SBIconModelPropertyListFileStore : NSObject
+@property (nonatomic,copy,readonly) NSURL * currentIconStateURL;     
+@property (nonatomic,copy,readonly) NSURL * desiredIconStateURL;     
+@end
 
-// @interface SBDefaultIconModelStore : SBIconModelPropertyListFileStore
-// +(id)sharedInstance;
-// @end
+@interface SBDefaultIconModelStore : SBIconModelPropertyListFileStore
++(id)sharedInstance;
+@end

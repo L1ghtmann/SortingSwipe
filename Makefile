@@ -3,7 +3,6 @@ ARCHS = arm64 arm64e
 
 INSTALL_TARGET_PROCESSES = SpringBoard
 
-
 include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = SortingSwipe
