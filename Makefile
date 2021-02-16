@@ -8,6 +8,7 @@ include $(THEOS)/makefiles/common.mk
 TWEAK_NAME = SortingSwipe
 
 SortingSwipe_FILES = Tweak.xm UIImage+UIImageAverageColorAddition.m
+SortingSwipe_FRAMEWORKS = GameplayKit 
 SortingSwipe_CFLAGS = -fobjc-arc
 
 include $(THEOS_MAKE_PATH)/tweak.mk
