@@ -1,12 +1,10 @@
 Package: me.lightmann.sortingswipe
 Name: SortingSwipe
 Depends: mobilesubstrate, firmware (>= 11.0)
-Version: 1.0.3
+Version: 1.0.3.0.1
 Architecture: iphoneos-arm
 Description: Sort your homescreen icons with a swipe!
 Maintainer: Lightmann
 Author: Lightmann
 Section: Tweaks
-Depiction: https://usrlightmann.github.io/depictions/?p=me.lightmann.sortingswipe
-SileoDepiction: https://usrlightmann.github.io/sileodepictions/me.lightmann.sortingswipe.json
-Icon: https://usrlightmann.github.io/assets/icons/me.lightmann.sortingswipe.png
+Icon: https://raw.githubusercontent.com/UsrLightmann/SortingSwipe/master/icon.png
