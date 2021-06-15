@@ -1,8 +1,9 @@
+#import "Categories/UIImage+UIImageAverageColorAddition.h"
+#import "Categories/NRFileManager.h"
 #import "Tweak.h"
-#import "UIImage+UIImageAverageColorAddition.h"
 
 // Lightmann
-// Made during covid 
+// Made during covid
 // SortingSwipe
 
 %hook SBIconController
@@ -16,25 +17,25 @@
 }
 
 %new
-// respond to gesture w config alert 
+// respond to gesture w config alert
 -(void)popAlert{
 	UIAlertController * alert = [UIAlertController
                                  alertControllerWithTitle:@"SortingSwipe"
                                  message:@"Choose a configuration:"
                                  preferredStyle:UIAlertControllerStyleAlert];
 
-    UIAlertAction *alphabetically = [UIAlertAction							
+    UIAlertAction *alphabetically = [UIAlertAction
                                 actionWithTitle:@"Sort Alphabetically"
                                 style:UIAlertActionStyleDefault
                                 handler:^(UIAlertAction * action) {
 									if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14")){
-										[((SBIconController *)[%c(SBIconController) sharedInstance]) sortAppsWithConfiguration:0 forVersion:14];
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:0 forVersion:14];
 									}
 									else if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13")){
-										[((SBIconController *)[%c(SBIconController) sharedInstance]) sortAppsWithConfiguration:0 forVersion:13];
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:0 forVersion:13];
 									}
 									else{
-										[((SBIconController *)[%c(SBIconController) sharedInstance]) sortAppsWithConfiguration:0 forVersion:12];
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:0 forVersion:12];
 									}
                                 }];
 
@@ -43,13 +44,13 @@
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction * action) {
 									if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14")){
-										[((SBIconController *)[%c(SBIconController) sharedInstance]) sortAppsWithConfiguration:1 forVersion:14];
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:1 forVersion:14];
 									}
 									else if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13")){
-										[((SBIconController *)[%c(SBIconController) sharedInstance]) sortAppsWithConfiguration:1 forVersion:13];
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:1 forVersion:13];
 									}
 									else{
-										[((SBIconController *)[%c(SBIconController) sharedInstance]) sortAppsWithConfiguration:1 forVersion:12];
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:1 forVersion:12];
 									}
                                }];
 
@@ -58,13 +59,13 @@
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction * action) {
 									if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14")){
-										[((SBIconController *)[%c(SBIconController) sharedInstance]) sortAppsWithConfiguration:2 forVersion:14];
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:2 forVersion:14];
 									}
 									else if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13")){
-										[((SBIconController *)[%c(SBIconController) sharedInstance]) sortAppsWithConfiguration:2 forVersion:13];
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:2 forVersion:13];
 									}
 									else{
-										[((SBIconController *)[%c(SBIconController) sharedInstance]) sortAppsWithConfiguration:2 forVersion:12];
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:2 forVersion:12];
 									}
                                }];
 
@@ -73,13 +74,28 @@
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction * action) {
 									if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14")){
-										[((SBIconController *)[%c(SBIconController) sharedInstance]) sortAppsWithConfiguration:3 forVersion:14];
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:3 forVersion:14];
 									}
 									else if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13")){
-										[((SBIconController *)[%c(SBIconController) sharedInstance]) sortAppsWithConfiguration:3 forVersion:13];
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:3 forVersion:13];
 									}
 									else{
-										[((SBIconController *)[%c(SBIconController) sharedInstance]) sortAppsWithConfiguration:3 forVersion:12];
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:3 forVersion:12];
+									}
+                               }];
+
+    UIAlertAction *size = [UIAlertAction
+                               actionWithTitle:@"Sort by App Size"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {
+									if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14")){
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:4 forVersion:14];
+									}
+									else if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13")){
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:4 forVersion:13];
+									}
+									else{
+										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:4 forVersion:12];
 									}
                                }];
 
@@ -87,14 +103,14 @@
                                actionWithTitle:@"Save Current Layout"
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction * action) {
-									[((SBIconController *)[%c(SBIconController) sharedInstance]) saveLayout]; 
+									[[%c(SBIconController) sharedInstance] saveLayout];
                                }];
 
     UIAlertAction *load = [UIAlertAction
                                actionWithTitle:@"Load Saved Layout"
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction * action) {
-									[((SBIconController *)[%c(SBIconController) sharedInstance]) loadLayout]; 
+									[[%c(SBIconController) sharedInstance] loadLayout];
                                }];
 
     UIAlertAction *cancel = [UIAlertAction
@@ -108,6 +124,7 @@
 	[alert addAction:badges];
     [alert addAction:hue];
 	[alert addAction:random];
+	[alert addAction:size];
 	[alert addAction:save];
 	[alert addAction:load];
     [alert addAction:cancel];
@@ -156,15 +173,21 @@
 	}];
 }
 
-%new 
+%new
 // where all the magic happens . . .
 -(void)sortAppsWithConfiguration:(int)configuration forVersion:(int)version{
 	NSMutableArray *sortedAppIcons = [NSMutableArray new];
 	switch(version){
-	/* --------- iOS 12 --------- */ 
+	/* --------- iOS 12 --------- */
 		case 12: {
 			switch(configuration){
-			/*  case 0 = sort alphabetically | case 1 = sort by badge value | case 2 = sort by hue | case 3 = sort randomly  */
+			/*
+				case 0 = sort alphabetically
+				case 1 = sort by badge value
+				case 2 = sort by hue
+				case 3 = sort randomly
+				case 4 = sort by app size
+			*/
 				case 0: {
 					// grab app names and SBIcons
 					NSMutableArray* appNames = [NSMutableArray new];
@@ -177,7 +200,7 @@
 						}
 					}
 
-					// add app names and SBIcons as key-value pairs 
+					// add app names and SBIcons as key-value pairs
 					NSMutableDictionary *hsApps = [NSMutableDictionary new];
 					for (int i = 0; i < appIcons.count; i++) {
 						[hsApps setObject:appIcons[i] forKey:appNames[i]];
@@ -189,12 +212,12 @@
 					// add now sorted SBIcons into finalized array
 					for(NSString *key in sortedAppNames){
 						[sortedAppIcons addObject:[hsApps objectForKey:key]];
-					} 
+					}
 					break;
 				}
 
 				case 1: {
-					// grab SBIcons 
+					// grab SBIcons
 					NSMutableArray *visibleAppIcons = [NSMutableArray new];
 					for(SBIcon *icon in self.model.leafIcons){
 						// we don't want to grab hidden apps
@@ -213,8 +236,8 @@
 
 					// remove duplicate icons
 					[visibleAppIcons removeObjectsInArray:badgedAppIcons];
-					
-					// sort badged icons in descending order 
+
+					// sort badged icons in descending order
 					NSSortDescriptor *badgeValue = [NSSortDescriptor sortDescriptorWithKey:@"badgeValue" ascending:NO];
 					[badgedAppIcons sortUsingDescriptors:@[badgeValue]];
 
@@ -223,20 +246,18 @@
 					[sortedIcons addObjectsFromArray:badgedAppIcons];
 					[sortedIcons addObjectsFromArray:visibleAppIcons];
 
-					// place sorted SBIcons orderly into finalized array 
-					for(SBIcon *object in sortedIcons){
-						[sortedAppIcons addObject:object];
-					}
+					// place sorted SBIcons into finalized array
+					[sortedAppIcons addObjectsFromArray:sortedIcons];
 					break;
 				}
 
 				case 2: {
-					// grab app icons, app names, and app icon images 
+					// grab app icons, app names, and app icon images
 					NSMutableArray *visibleAppNames = [NSMutableArray new];
 					NSMutableArray *visibleAppIcons = [NSMutableArray new];
 					NSMutableArray *visibleAppIconImages = [NSMutableArray new];
 					// No readily available image cache like 13/14, so have to grab em manually
-					for(SBIcon *icon in [self.model leafIcons]){ 						 
+					for(SBIcon *icon in [self.model leafIcons]){
 						// we don't want to grab hidden apps
 						if(![MSHookIvar<NSSet *>(self.model, "_hiddenIconTags") containsObject:[icon applicationBundleID]]){
 							[visibleAppNames addObject:icon.displayName];
@@ -247,7 +268,7 @@
 
 					// add names & icons and names & images as key-value pairs in two dicts
 					NSMutableDictionary *hsIcons = [NSMutableDictionary new];
-					NSMutableDictionary *hsImages = [NSMutableDictionary new]; 
+					NSMutableDictionary *hsImages = [NSMutableDictionary new];
 					for (int i = 0; i < visibleAppNames.count; i++) {
 						[hsIcons setObject:visibleAppIcons[i] forKey:visibleAppNames[i]];
 						[hsImages setObject:visibleAppIconImages[i] forKey:visibleAppNames[i]];
@@ -279,17 +300,17 @@
 						return NSOrderedSame;
 					}];
 
-					// grab key (name) for sorted icon images, then grab SBIcon with that key, and place orderly into sortedappicons array 
-					for(UIImage *object in sortedIcons){ 
+					// grab key (name) for sorted icon images, then grab SBIcon with that key, and place orderly into sortedappicons array
+					for(UIImage *object in sortedIcons){
 						NSArray *icon = [hsImages allKeysForObject:object];
 						NSString *key = [icon objectAtIndex:0];
-						[sortedAppIcons addObject:[hsIcons objectForKey:key]]; 
-					} 
+						[sortedAppIcons addObject:[hsIcons objectForKey:key]];
+					}
 					break;
 				}
-			
+
 				case 3: {
-					// grab SBIcons 
+					// grab SBIcons
 					NSMutableArray *visibleAppIcons = [NSMutableArray new];
 					for(SBIcon *icon in self.model.leafIcons){
 						// we don't want to grab hidden apps
@@ -301,21 +322,77 @@
 					// 'sort' icons randomly
 					NSArray *sortedIcons = [[visibleAppIcons copy] shuffledArray]; // (NSArray *)shuffledArray requires importing GameplayKit framework
 
-					// place 'sorted' SBIcons orderly into finalized array 
-					for(SBIcon *object in sortedIcons){
-						[sortedAppIcons addObject:object];
+					// place 'sorted' SBIcons into finalized array
+					[sortedAppIcons addObjectsFromArray:sortedIcons];
+					break;
+				}
+
+				case 4: {
+					// grab SBIcons
+					NSMutableArray *visibleAppIcons = [NSMutableArray new];
+					for(SBIcon *icon in self.model.leafIcons){
+						// we don't want to grab hidden apps
+						if(![MSHookIvar<NSSet *>(self.model, "_hiddenIconTags") containsObject:[icon applicationBundleID]]){
+							[visibleAppIcons addObject:icon];
+						}
 					}
+
+					// get apps
+					NSMutableDictionary *iconsAndIds = [NSMutableDictionary new];
+					NSMutableArray *apps = [NSMutableArray new];
+					NSMutableArray *other = [NSMutableArray new];
+					for(SBIcon *icon in visibleAppIcons){
+						if([icon isKindOfClass:%c(SBApplicationIcon)]){
+							SBApplicationIcon *appIcon = (SBApplicationIcon *)icon;
+							[iconsAndIds setValue:icon forKey:[appIcon applicationBundleID]];
+							[apps addObject:[appIcon application]];
+						}
+						else{
+							[other addObject:icon];
+						}
+					}
+
+					// get size of apps
+					NSMutableDictionary *appSizes = [NSMutableDictionary new];
+					for(SBApplication *app in apps){
+						SBApplicationInfo *info = app.info;
+						NSURL *bundleURL = info.bundleURL;
+
+						unsigned long long approxSize;
+						[[NSFileManager defaultManager] nr_getAllocatedSize:&approxSize ofDirectoryAtURL:bundleURL error:NULL];
+
+						[appSizes setValue:[NSString stringWithFormat:@"%llu", approxSize] forKey:[app bundleIdentifier]];
+					}
+
+					// sort sizes in descending order and then grab corresponding bundleid and icon
+					NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"intValue" ascending:NO];
+					NSArray* sortedSizes = [[appSizes allValues] sortedArrayUsingDescriptors:@[sortDescriptor]];
+					NSMutableArray *sortedIcons = [NSMutableArray new];
+					for(NSString *size in sortedSizes){
+						NSArray *temp = [appSizes allKeysForObject:size];
+						NSString *key = [temp lastObject];
+						SBIcon* icon = [iconsAndIds valueForKey:key];
+						[sortedIcons addObject:icon];
+					}
+
+					// add 'other' icons at the end
+					if([other count]){
+						[sortedIcons addObjectsFromArray:other];
+					}
+
+					// place 'sorted' SBIcons into finalized array
+					[sortedAppIcons addObjectsFromArray:sortedIcons];
 					break;
 				}
 			}
 
-			// modified from Broha22's AppSort (https://github.com/broha22/appsort/blob/master/Tweak.x)	
-			// remove and then add back now-sorted icons 
+			// modified from Broha22's AppSort (https://github.com/broha22/appsort/blob/master/Tweak.x)
+			// remove and then add back now-sorted icons
 			int index = 0;
 			NSMutableArray *addedIcons = [NSMutableArray array];
 			for(SBIconListView *listview in [self _currentFolderController].iconListViews) {
 				for(SBIcon *icon in [listview icons]) {
-					[listview removeIcon:icon]; 
+					[listview removeIcon:icon];
 				}
 				for(SBIcon *icon in sortedAppIcons){
 					if([listview isFull]) break;
@@ -333,13 +410,13 @@
 			//clear dock
 			SBIconListView *dockListView = [self _currentFolderController].dockIconListView;
 			for(SBIcon *icon in [dockListView icons]) {
-				[dockListView removeIcon:icon]; 
+				[dockListView removeIcon:icon];
 			}
 			[dockListView layoutIconsNow];
 			break;
 		}
 
-	/* --------- iOS 13 --------- */ 
+	/* --------- iOS 13 --------- */
 		case 13: {
 			switch(configuration){
 				case 0: {
@@ -366,12 +443,12 @@
 					// grab SBIcon for sorted names and place orderly into finalized array
 					for(NSString *key in sortedAppNames){
 						[sortedAppIcons addObject:[hsApps objectForKey:key]];
-					}  
+					}
 					break;
 				}
 
 				case 1: {
-					// grab SBIcons 
+					// grab SBIcons
 					NSMutableArray *visibleAppIcons = [NSMutableArray new];
 					for(SBIcon *icon in self.model.leafIcons){
 						//we don't want to grab hidden apps
@@ -390,8 +467,8 @@
 
 					// remove duplicate icons
 					[visibleAppIcons removeObjectsInArray:badgedAppIcons];
-					
-					// sort badged icons in descending order 
+
+					// sort badged icons in descending order
 					NSSortDescriptor *badgeValue = [NSSortDescriptor sortDescriptorWithKey:@"badgeValue" ascending:NO];
 					[badgedAppIcons sortUsingDescriptors:@[badgeValue]];
 
@@ -400,15 +477,13 @@
 					[sortedIcons addObjectsFromArray:badgedAppIcons];
 					[sortedIcons addObjectsFromArray:visibleAppIcons];
 
-					// place sorted SBIcons orderly into finalized array 
-					for(SBIcon *object in sortedIcons){
-						[sortedAppIcons addObject:object];
-					}
+					// place sorted SBIcons into finalized array
+					[sortedAppIcons addObjectsFromArray:sortedIcons];
 					break;
 				}
 
 				case 2: {
-					// grab SBIcons 
+					// grab SBIcons
 					NSMutableArray *visibleAppIcons = [NSMutableArray new];
 					for(SBIcon *icon in self.model.leafIcons){
 						//we don't want to grab hidden apps
@@ -420,10 +495,10 @@
 					// get UIImages for the application icons
 					SBHIconImageCache *iconCache = self.appSwitcherUnmaskedIconImageCache;
 					[iconCache cacheImagesForIcons:visibleAppIcons];
-				
+
 					// easier access to the icon images
 					NSMutableDictionary *hsIcons = MSHookIvar<NSMutableDictionary *>(iconCache, "_images");
-					
+
 					// sort hsicon images and put into sortedIcons array -- (https://stackoverflow.com/a/8585285)
 					NSArray *sortedIcons = [[hsIcons allValues] sortedArrayUsingComparator:^NSComparisonResult(UIImage* obj1, UIImage* obj2) {
 						UIColor *color1 = [obj1 mergedColor]; //avg color
@@ -450,7 +525,7 @@
 						return NSOrderedSame;
 					}];
 
-					// grab key (bundleId) for sorted images, grab SBIcon for said bundleID, then place orderly into finalized array 
+					// grab key (bundleId) for sorted images, grab SBIcon for said bundleID, then place orderly into finalized array
 					for(UIImage *object in sortedIcons){
 						NSArray *icon = [hsIcons allKeysForObject:object];
 						NSString *key = [icon objectAtIndex:0];
@@ -460,7 +535,7 @@
 				}
 
 				case 3: {
-					// grab SBIcons 
+					// grab SBIcons
 					NSMutableArray *visibleAppIcons = [NSMutableArray new];
 					for(SBIcon *icon in self.model.leafIcons){
 						//we don't want to grab hidden apps
@@ -472,17 +547,73 @@
 					// 'sort' icons randomly
 					NSArray *sortedIcons = [[visibleAppIcons copy] shuffledArray]; // (NSArray *)shuffledArray requires importing GameplayKit framework
 
-					// place 'sorted' SBIcons orderly into finalized array 
-					for(SBIcon *object in sortedIcons){
-						[sortedAppIcons addObject:object];
+					// place 'sorted' SBIcons into finalized array
+					[sortedAppIcons addObjectsFromArray:sortedIcons];
+					break;
+				}
+
+				case 4: {
+					// grab SBIcons
+					NSMutableArray *visibleAppIcons = [NSMutableArray new];
+					for(SBIcon *icon in self.model.leafIcons){
+						//we don't want to grab hidden apps
+						if(![self.model.hiddenIconTags containsObject:[icon applicationBundleID]]){
+							[visibleAppIcons addObject:icon];
+						}
 					}
+
+					// get apps
+					NSMutableDictionary *iconsAndIds = [NSMutableDictionary new];
+					NSMutableArray *apps = [NSMutableArray new];
+					NSMutableArray *other = [NSMutableArray new];
+					for(SBIcon *icon in visibleAppIcons){
+						if([icon isKindOfClass:%c(SBApplicationIcon)]){
+							SBApplicationIcon *appIcon = (SBApplicationIcon *)icon;
+							[iconsAndIds setValue:icon forKey:[appIcon applicationBundleID]];
+							[apps addObject:[appIcon application]];
+						}
+						else{
+							[other addObject:icon];
+						}
+					}
+
+					// get size of apps
+					NSMutableDictionary *appSizes = [NSMutableDictionary new];
+					for(SBApplication *app in apps){
+						SBApplicationInfo *info = app.info;
+						NSURL *bundleURL = info.bundleURL;
+
+						unsigned long long approxSize;
+						[[NSFileManager defaultManager] nr_getAllocatedSize:&approxSize ofDirectoryAtURL:bundleURL error:NULL];
+
+						[appSizes setValue:[NSString stringWithFormat:@"%llu", approxSize] forKey:[app bundleIdentifier]];
+					}
+
+					// sort sizes in descending order and then grab corresponding bundleid and icon
+					NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"intValue" ascending:NO];
+					NSArray* sortedSizes = [[appSizes allValues] sortedArrayUsingDescriptors:@[sortDescriptor]];
+					NSMutableArray *sortedIcons = [NSMutableArray new];
+					for(NSString *size in sortedSizes){
+						NSArray *temp = [appSizes allKeysForObject:size];
+						NSString *key = [temp lastObject];
+						SBIcon* icon = [iconsAndIds valueForKey:key];
+						[sortedIcons addObject:icon];
+					}
+
+					// add 'other' icons at the end
+					if([other count]){
+						[sortedIcons addObjectsFromArray:other];
+					}
+
+					// place 'sorted' SBIcons into finalized array
+					[sortedAppIcons addObjectsFromArray:sortedIcons];
 					break;
 				}
 			}
-			
-			// remove icons 	
+
+			// remove icons
 			[self.model removeAllIcons];
-			[self.model layout]; 
+			[self.model layout];
 
 			// re-add icons in now-sorted order
 			[UIView animateWithDuration:0.5 animations:^{
@@ -491,7 +622,7 @@
 			break;
 		}
 
-	/* --------- iOS 14 --------- */ 
+	/* --------- iOS 14 --------- */
 		case 14: {
 			switch(configuration){
 				case 0: {
@@ -499,7 +630,7 @@
 					NSMutableArray* appNames = [NSMutableArray new];
 					NSMutableArray* appIcons = [NSMutableArray new];
 					for(SBIcon *icon in self.model.leafIcons){
-						//we don't want to grab widgets or hidden apps 
+						//we don't want to grab widgets or hidden apps
 						if(![icon isMemberOfClass:%c(SBWidgetIcon)] && ![self.model.hiddenIconTags containsObject:[icon applicationBundleID]]){
 							[appNames addObject:icon.displayName];
 							[appIcons addObject:icon];
@@ -518,12 +649,12 @@
 					// grab SBIcon for sorted names and place orderly into finalized array
 					for(NSString *key in sortedAppNames){
 						[sortedAppIcons addObject:[hsApps objectForKey:key]];
-					}  
+					}
 					break;
 				}
 
 				case 1: {
-					// grab SBIcons 
+					// grab SBIcons
 					NSMutableArray *visibleAppIcons = [NSMutableArray new];
 					for(SBIcon *icon in self.model.leafIcons){
 						//we don't want to grab widgets or hidden apps
@@ -542,8 +673,8 @@
 
 					// remove duplicate icons
 					[visibleAppIcons removeObjectsInArray:badgedAppIcons];
-					
-					// sort badged icons in descending order 
+
+					// sort badged icons in descending order
 					NSSortDescriptor *badgeValue = [NSSortDescriptor sortDescriptorWithKey:@"badgeValue" ascending:NO];
 					[badgedAppIcons sortUsingDescriptors:@[badgeValue]];
 
@@ -552,19 +683,17 @@
 					[sortedIcons addObjectsFromArray:badgedAppIcons];
 					[sortedIcons addObjectsFromArray:visibleAppIcons];
 
-					// place sorted SBIcons orderly into finalized array 
-					for(SBIcon *object in sortedIcons){
-						[sortedAppIcons addObject:object];
-					}
+					// place sorted SBIcons into finalized array
+					[sortedAppIcons addObjectsFromArray:sortedIcons];
 					break;
 				}
 
 				case 2: {
-					// grab SBIcons 
+					// grab SBIcons
 					NSMutableArray *visibleAppIcons = [NSMutableArray new];
 					for(SBIcon *icon in self.model.leafIcons){
 						//we don't want to grab widgets
-						if(![icon isMemberOfClass:%c(SBWidgetIcon)]){ 
+						if(![icon isMemberOfClass:%c(SBWidgetIcon)]){
 							[visibleAppIcons addObject:icon];
 						}
 					}
@@ -572,10 +701,10 @@
 					// get UIImages for the application icons
 					SBHIconImageCache *iconCache = self.appSwitcherUnmaskedIconImageCache;
 					[iconCache cacheImagesForIcons:visibleAppIcons];
-				
+
 					// easier access to icon images
 					NSMutableDictionary *hsIcons = MSHookIvar<NSMutableDictionary *>(iconCache, "_images");
-					
+
 					// sort hsicon images and put into sortedIcons array -- (https://stackoverflow.com/a/8585285)
 					NSArray *sortedIcons = [[hsIcons allValues] sortedArrayUsingComparator:^NSComparisonResult(UIImage* obj1, UIImage* obj2) {
 						UIColor *color1 = [obj1 mergedColor]; //avg color
@@ -602,11 +731,11 @@
 						return NSOrderedSame;
 					}];
 
-					// grab key (bundleId) for sorted images, grab SBIcon for said bundleID, then place orderly into finalized array 
+					// grab key (bundleId) for sorted images, grab SBIcon for said bundleID, then place orderly into finalized array
 					for(UIImage *object in sortedIcons){
 						NSArray *icon = [hsIcons allKeysForObject:object];
 						NSString *key = [icon objectAtIndex:0];
-						// we don't want to grab these hidden apps 
+						// we don't want to grab these hidden apps
 						// would put this check in the leafIcons for loop, like I do elsewhere, but they're present again in the image cache, for some reason, so this saves us doing it twice
 						if(![self.model.hiddenIconTags containsObject:key]){
 							[sortedAppIcons addObject:[self.model expectedIconForDisplayIdentifier:key]];
@@ -614,9 +743,9 @@
 					}
 					break;
 				}
-				
+
 				case 3: {
-					// grab SBIcons 
+					// grab SBIcons
 					NSMutableArray *visibleAppIcons = [NSMutableArray new];
 					for(SBIcon *icon in self.model.leafIcons){
 						//we don't want to grab widgets or hidden apps
@@ -628,17 +757,73 @@
 					// 'sort' icons randomly
 					NSArray *sortedIcons = [[visibleAppIcons copy] shuffledArray]; // (NSArray *)shuffledArray requires importing GameplayKit framework
 
-					// place 'sorted' SBIcons orderly into finalized array 
-					for(SBIcon *object in sortedIcons){
-						[sortedAppIcons addObject:object];
+					// place 'sorted' SBIcons into finalized array
+					[sortedAppIcons addObjectsFromArray:sortedIcons];
+					break;
+				}
+
+				case 4: {
+					// grab SBIcons
+					NSMutableArray *visibleAppIcons = [NSMutableArray new];
+					for(SBIcon *icon in self.model.leafIcons){
+						//we don't want to grab widgets or hidden apps
+						if(![icon isMemberOfClass:%c(SBWidgetIcon)] && ![self.model.hiddenIconTags containsObject:[icon applicationBundleID]]){
+							[visibleAppIcons addObject:icon];
+						}
 					}
+
+					// get apps
+					NSMutableDictionary *iconsAndIds = [NSMutableDictionary new];
+					NSMutableArray *apps = [NSMutableArray new];
+					NSMutableArray *other = [NSMutableArray new];
+					for(SBIcon *icon in visibleAppIcons){
+						if([icon isKindOfClass:%c(SBApplicationIcon)]){
+							SBApplicationIcon *appIcon = (SBApplicationIcon *)icon;
+							[iconsAndIds setValue:icon forKey:[appIcon applicationBundleID]];
+							[apps addObject:[appIcon application]];
+						}
+						else{
+							[other addObject:icon];
+						}
+					}
+
+					// get size of apps
+					NSMutableDictionary *appSizes = [NSMutableDictionary new];
+					for(SBApplication *app in apps){
+						SBApplicationInfo *info = app.info;
+						NSURL *bundleURL = info.bundleURL;
+
+						unsigned long long approxSize;
+						[[NSFileManager defaultManager] nr_getAllocatedSize:&approxSize ofDirectoryAtURL:bundleURL error:NULL];
+
+						[appSizes setValue:[NSString stringWithFormat:@"%llu", approxSize] forKey:[app bundleIdentifier]];
+					}
+
+					// sort sizes in descending order and then grab corresponding bundleid and icon
+					NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"intValue" ascending:NO];
+					NSArray* sortedSizes = [[appSizes allValues] sortedArrayUsingDescriptors:@[sortDescriptor]];
+					NSMutableArray *sortedIcons = [NSMutableArray new];
+					for(NSString *size in sortedSizes){
+						NSArray *temp = [appSizes allKeysForObject:size];
+						NSString *key = [temp lastObject];
+						SBIcon* icon = [iconsAndIds valueForKey:key];
+						[sortedIcons addObject:icon];
+					}
+
+					// add 'other' icons at the end
+					if([other count]){
+						[sortedIcons addObjectsFromArray:other];
+					}
+
+					// place 'sorted' SBIcons orderly into finalized array
+					[sortedAppIcons addObjectsFromArray:sortedIcons];
 					break;
 				}
 			}
-			
-			// remove icons 	
+
+			// remove icons
 			[self.model removeAllIcons];
-			[self.model layout]; 
+			[self.model layout];
 
 			// re-add icons in now-sorted order
 			[UIView animateWithDuration:0.5 animations:^{
@@ -647,5 +832,5 @@
 			break;
 		}
 	}
-}		
+}
 %end
