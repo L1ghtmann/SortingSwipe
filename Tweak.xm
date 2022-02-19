@@ -1,33 +1,36 @@
+//
+//	Tweak.xm
+//	SortingSwipe
+//
+//	Created by Lightmann during COVID-19
+//
+
 #import "Categories/UIImage+UIImageAverageColorAddition.h"
 #import "Categories/NRFileManager.h"
 #import "Tweak.h"
-
-// Lightmann
-// Made during covid
-// SortingSwipe
 
 %hook SBIconController
 // add sort gesture to HS
 -(void)viewDidLoad{
 	%orig;
 
-	UISwipeGestureRecognizer *sortGesture = [[UISwipeGestureRecognizer alloc]  initWithTarget:self action:@selector(popAlert)];
-    sortGesture.direction = UISwipeGestureRecognizerDirectionUp;
-    [self.view addGestureRecognizer:sortGesture];
+	UISwipeGestureRecognizer *sortGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(popAlert)];
+	sortGesture.direction = UISwipeGestureRecognizerDirectionUp;
+	[self.view addGestureRecognizer:sortGesture];
 }
 
 %new
 // respond to gesture w config alert
 -(void)popAlert{
 	UIAlertController * alert = [UIAlertController
-                                 alertControllerWithTitle:@"SortingSwipe"
-                                 message:@"Choose a configuration:"
-                                 preferredStyle:UIAlertControllerStyleAlert];
+								 alertControllerWithTitle:@"SortingSwipe"
+								 message:@"Choose a configuration:"
+								 preferredStyle:UIAlertControllerStyleAlert];
 
-    UIAlertAction *alphabetically = [UIAlertAction
-                                actionWithTitle:@"Sort Alphabetically"
-                                style:UIAlertActionStyleDefault
-                                handler:^(UIAlertAction * action) {
+	UIAlertAction *alphabetically = [UIAlertAction
+								actionWithTitle:@"Sort Alphabetically"
+								style:UIAlertActionStyleDefault
+								handler:^(UIAlertAction * action) {
 									if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14")){
 										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:0 forVersion:14];
 									}
@@ -37,12 +40,12 @@
 									else{
 										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:0 forVersion:12];
 									}
-                                }];
+								}];
 
-    UIAlertAction *badges = [UIAlertAction
-                               actionWithTitle:@"Sort by Badge Value"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {
+	UIAlertAction *badges = [UIAlertAction
+							   actionWithTitle:@"Sort by Badge Value"
+							   style:UIAlertActionStyleDefault
+							   handler:^(UIAlertAction * action) {
 									if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14")){
 										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:1 forVersion:14];
 									}
@@ -52,12 +55,12 @@
 									else{
 										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:1 forVersion:12];
 									}
-                               }];
+							   }];
 
-    UIAlertAction *hue = [UIAlertAction
-                               actionWithTitle:@"Sort by Hue"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {
+	UIAlertAction *hue = [UIAlertAction
+							   actionWithTitle:@"Sort by Hue"
+							   style:UIAlertActionStyleDefault
+							   handler:^(UIAlertAction * action) {
 									if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14")){
 										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:2 forVersion:14];
 									}
@@ -67,12 +70,12 @@
 									else{
 										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:2 forVersion:12];
 									}
-                               }];
+							   }];
 
-    UIAlertAction *random = [UIAlertAction
-                               actionWithTitle:@"Sort Randomly"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {
+	UIAlertAction *random = [UIAlertAction
+							   actionWithTitle:@"Sort Randomly"
+							   style:UIAlertActionStyleDefault
+							   handler:^(UIAlertAction * action) {
 									if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14")){
 										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:3 forVersion:14];
 									}
@@ -82,12 +85,12 @@
 									else{
 										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:3 forVersion:12];
 									}
-                               }];
+							   }];
 
-    UIAlertAction *size = [UIAlertAction
-                               actionWithTitle:@"Sort by App Size"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {
+	UIAlertAction *size = [UIAlertAction
+							   actionWithTitle:@"Sort by App Size"
+							   style:UIAlertActionStyleDefault
+							   handler:^(UIAlertAction * action) {
 									if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14")){
 										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:4 forVersion:14];
 									}
@@ -97,37 +100,37 @@
 									else{
 										[[%c(SBIconController) sharedInstance] sortAppsWithConfiguration:4 forVersion:12];
 									}
-                               }];
+							   }];
 
-    UIAlertAction *save = [UIAlertAction
-                               actionWithTitle:@"Save Current Layout"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {
+	UIAlertAction *save = [UIAlertAction
+							   actionWithTitle:@"Save Current Layout"
+							   style:UIAlertActionStyleDefault
+							   handler:^(UIAlertAction * action) {
 									[[%c(SBIconController) sharedInstance] saveLayout];
-                               }];
+							   }];
 
-    UIAlertAction *load = [UIAlertAction
-                               actionWithTitle:@"Load Saved Layout"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {
+	UIAlertAction *load = [UIAlertAction
+							   actionWithTitle:@"Load Saved Layout"
+							   style:UIAlertActionStyleDefault
+							   handler:^(UIAlertAction * action) {
 									[[%c(SBIconController) sharedInstance] loadLayout];
-                               }];
+							   }];
 
-    UIAlertAction *cancel = [UIAlertAction
-                               actionWithTitle:@"Cancel"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {
+	UIAlertAction *cancel = [UIAlertAction
+							   actionWithTitle:@"Cancel"
+							   style:UIAlertActionStyleDefault
+							   handler:^(UIAlertAction * action) {
 									[self dismissViewControllerAnimated:YES completion:nil];
-	                           }];
+							   }];
 
-    [alert addAction:alphabetically];
+	[alert addAction:alphabetically];
 	[alert addAction:badges];
-    [alert addAction:hue];
+	[alert addAction:hue];
 	[alert addAction:random];
 	[alert addAction:size];
 	[alert addAction:save];
 	[alert addAction:load];
-    [alert addAction:cancel];
+	[alert addAction:cancel];
 
  	[self presentViewController:alert animated:YES completion:nil];
 }
@@ -138,18 +141,18 @@
 	[[NSUserDefaults standardUserDefaults] setObject:[self.model iconState] forKey:@"SortingSwipeSave"];
 
 	UIAlertController * alert = [UIAlertController
-                                 alertControllerWithTitle:@"SortingSwipe"
-                                 message:@"Current Layout Saved!"
-                                 preferredStyle:UIAlertControllerStyleAlert];
+								 alertControllerWithTitle:@"SortingSwipe"
+								 message:@"Current Layout Saved!"
+								 preferredStyle:UIAlertControllerStyleAlert];
 
-    UIAlertAction *ok = [UIAlertAction
-                               actionWithTitle:@"Ok"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action) {
+	UIAlertAction *ok = [UIAlertAction
+							   actionWithTitle:@"Ok"
+							   style:UIAlertActionStyleDefault
+							   handler:^(UIAlertAction * action) {
 									[self dismissViewControllerAnimated:YES completion:nil];
-	                           }];
+							   }];
 
-    [alert addAction:ok];
+	[alert addAction:ok];
 
  	[self presentViewController:alert animated:YES completion:nil];
 }
@@ -320,7 +323,7 @@
 					}
 
 					// 'sort' icons randomly
-					NSArray *sortedIcons = [[visibleAppIcons copy] shuffledArray]; // (NSArray *)shuffledArray requires importing GameplayKit framework
+					NSArray *sortedIcons = [[visibleAppIcons copy] shuffledArray]; // have to link against the GameplayKit framework for shuffledArray
 
 					// place 'sorted' SBIcons into finalized array
 					[sortedAppIcons addObjectsFromArray:sortedIcons];
@@ -545,7 +548,7 @@
 					}
 
 					// 'sort' icons randomly
-					NSArray *sortedIcons = [[visibleAppIcons copy] shuffledArray]; // (NSArray *)shuffledArray requires importing GameplayKit framework
+					NSArray *sortedIcons = [[visibleAppIcons copy] shuffledArray]; // have to link against the GameplayKit framework for shuffledArray
 
 					// place 'sorted' SBIcons into finalized array
 					[sortedAppIcons addObjectsFromArray:sortedIcons];
@@ -736,7 +739,7 @@
 						NSArray *icon = [hsIcons allKeysForObject:object];
 						NSString *key = [icon objectAtIndex:0];
 						// we don't want to grab these hidden apps
-						// would put this check in the leafIcons for loop, like I do elsewhere, but they're present again in the image cache, for some reason, so this saves us doing it twice
+						// would put this check in the leafIcons for loop, like I do elsewhere, but they're present again in the image cache for some reason, so this saves us doing it twice
 						if(![self.model.hiddenIconTags containsObject:key]){
 							[sortedAppIcons addObject:[self.model expectedIconForDisplayIdentifier:key]];
 						}
@@ -755,7 +758,7 @@
 					}
 
 					// 'sort' icons randomly
-					NSArray *sortedIcons = [[visibleAppIcons copy] shuffledArray]; // (NSArray *)shuffledArray requires importing GameplayKit framework
+					NSArray *sortedIcons = [[visibleAppIcons copy] shuffledArray]; // have to link against the GameplayKit framework for shuffledArray
 
 					// place 'sorted' SBIcons into finalized array
 					[sortedAppIcons addObjectsFromArray:sortedIcons];
